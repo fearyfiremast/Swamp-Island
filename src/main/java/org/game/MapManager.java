@@ -242,8 +242,8 @@ public class MapManager {
      * handles a NullPointerException if sprite cannot be found.
      */
     private void setSprite() {
-        addSprites(GroundType.values(), groundSprite, "Swamp Island/src/main/Images/ground");
-        addSprites(CellType.values(), cellSprite, "Swamp Island/src/main/Images/cell");
+        addSprites(GroundType.values(), groundSprite, "src/main/Images/ground");
+        addSprites(CellType.values(), cellSprite, "src/main/Images/cell");
     }
 
     /**
@@ -283,7 +283,7 @@ public class MapManager {
         File filepath;
         BufferedImage toReturn = null;
         try {
-            filepath = new File("Swamp Island/src/main/Images/Error/" + type.getDeclaringClass().getSimpleName() + "Error.png");
+            filepath = new File("src/main/Images/Error/" + type.getDeclaringClass().getSimpleName() + "Error.png");
             toReturn = ImageIO.read(filepath);
 
         } catch (IOException e) {

@@ -13,7 +13,7 @@ public class Instructions extends Screens {
     public JButton backToMenu;
     JLabel line1, line2, line3, line4, line5, line6;
 
-    String basePath = "Swamp Island/src/main/Images/UI/";
+    String basePath = "src/main/Images/UI/";
 
     /**
      * Constructor. Creates all components and adds them to the panel.
@@ -32,9 +32,9 @@ public class Instructions extends Screens {
 
         arrows = getSizedImage(basePath + "wasd.png",new Rectangle(125,105,150,100));
 
-        mcReg = getSizedImage("Swamp Island/src/main/Images/sprites/mainCharacter/idle/idle_d2.png",new Rectangle(300,128,50,50));
+        mcReg = getSizedImage("src/main/Images/sprites/mainCharacter/idle/idle_d2.png",new Rectangle(300,128,50,50));
 
-        mcMove = getSizedImage("Swamp Island/src/main/Images/sprites/mainCharacter/move/move_r2.png",new Rectangle(350,125,50,50));
+        mcMove = getSizedImage("src/main/Images/sprites/mainCharacter/move/move_r2.png",new Rectangle(350,125,50,50));
 
         keys = makeLabel("Use WASD keys to move",25, new Rectangle(425,100,300,100));
 
@@ -48,7 +48,7 @@ public class Instructions extends Screens {
 
         punish = makeLabel("Mushrooms reduce your score",25, new Rectangle(325,265,450,100));
 
-        wildMoose = getSizedImage("Swamp Island/src/main/Images/sprites/enemy/idle/idle_d1.png",new Rectangle(175,360,50,50)); //Imports the photo
+        wildMoose = getSizedImage("src/main/Images/sprites/enemy/idle/idle_d1.png",new Rectangle(175,360,50,50)); //Imports the photo
 
         moving = makeLabel("Wild moose will chase and kill you",25, new Rectangle(300,335,500,100));
 

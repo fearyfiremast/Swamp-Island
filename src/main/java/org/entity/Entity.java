@@ -55,7 +55,7 @@ public abstract class Entity {
     public void loadSprites(String entityName) {
         try {
             // Base path
-            String basePath = "Swamp Island/src/main/Images/sprites/";
+            String basePath = "src/main/Images/sprites/";
             // Idle Sprites
             idle_u1 = ImageIO.read(new File(basePath + entityName + "/idle/idle_u1.png"));
             idle_u2 = ImageIO.read(new File(basePath + entityName + "/idle/idle_u2.png"));

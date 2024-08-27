@@ -33,8 +33,8 @@ public class MapTemplate {
         enumArray = new Pair[cellCountX][cellCountY];
         generateBasicMap();
 
-        int[] cellType_array = readMapArray("Swamp Island/src/main/textFiles/Level/CellType.txt");
-        int[] groundType_array = readMapArray("Swamp Island/src/main/textFiles/Level/GroundType.txt");
+        int[] cellType_array = readMapArray("src/main/textFiles/Level/CellType.txt");
+        int[] groundType_array = readMapArray("src/main/textFiles/Level/GroundType.txt");
 
         System.out.println(cellType_array.length);
         init_Map(cellType_array, groundType_array);

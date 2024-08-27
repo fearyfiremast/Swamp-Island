@@ -264,7 +264,7 @@ public class GameManager extends JPanel implements Runnable {
     {
         int highScore;
         try{    // the file gets opened for reading
-            BufferedReader buffReader = new BufferedReader(new FileReader("SwampIslandRefactor/Swamp Island/src/main/textFiles/HighScore.txt"));   // can throw IOException when input file does not exists.
+            BufferedReader buffReader = new BufferedReader(new FileReader("src/main/textFiles/HighScore.txt"));   // can throw IOException when input file does not exists.
             String line = buffReader.readLine();
             if(line != null) {//if something was actually read from the file.
                 highScore = Integer.parseInt(line.trim());  // can throw numberFormatException
@@ -295,7 +295,7 @@ public class GameManager extends JPanel implements Runnable {
             this.highScore = score;
 
             try {
-                FileWriter scoreWriter = new FileWriter("SwampIslandRefactor/Swamp Island/src/main/textFiles/HighScore.txt");
+                FileWriter scoreWriter = new FileWriter("src/main/textFiles/HighScore.txt");
                 scoreWriter.write(Integer.toString(highScore));
                 scoreWriter.close();
             }

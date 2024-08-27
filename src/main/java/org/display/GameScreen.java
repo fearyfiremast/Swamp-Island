@@ -17,7 +17,7 @@ public class GameScreen extends Screens implements Runnable {
 
     static JLabel message, juice, trap;
     JPanel scoreBoard;
-    String basePath = "Swamp Island/src/main/Images/UI/";
+    String basePath = "src/main/Images/UI/";
 
     public static Thread bottomPanel;
     public static boolean gameOn = false, rewardM = false, exitM = false;
