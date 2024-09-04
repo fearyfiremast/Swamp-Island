@@ -1,5 +1,6 @@
 package org.game;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.util.Pair;
 import org.extras.CellType;
 import org.extras.GroundType;
@@ -14,22 +15,24 @@ import java.util.ArrayList;
  * The initializations are later utilized for Visuals, spawing game elements and tile behaviour.
  */
 public class MapTemplate {
+    private final static String fromContentRoot = "src/main/textFiles";
+    private Integer levelID;
     int cellCountX; // number of columns, we can read this as input too
     int cellCountY; // number of rows, we can read this as input too
     Pair[][] enumArray;
     ArrayList<Pair<Integer, Integer>> enemyPosArray;
 
     /**
-     *
-     * @param x - The number of cells in the x axis
-     * @param y - The number of cells in the y axis
-     *          Constructor for Map template that calls necessary functions for setting up the map.
+     * Constructor for MapTemplate class
+     * @param levelPath format: LevelTypeDesignator/LevelName
      */
-    public MapTemplate(int x, int y)
+    public MapTemplate(String levelPath)
     {
+        String address = fromContentRoot + "/" + levelPath;
+        readMisc(address);
         enemyPosArray = new ArrayList<>();
-        setCellCountX(x);
-        setCellCountY(y);
+        setCellCountX(50);
+        setCellCountY(50);
         enumArray = new Pair[cellCountX][cellCountY];
         generateBasicMap();
 
@@ -43,13 +46,76 @@ public class MapTemplate {
     }
 
     /**
-     * @param x - new count for number of cells in x axis
-     *          Setter for count of cells in x axis
+     * Reads all data in misc file and loads data into template object.
+     * Assumes that relevent data immediatly follows a tag: #TAGID
+     * #ENEMYPOS tag must also be the last
+     * @param levelPath format: LevelTypeDesignator/LevelName
      */
-    public void setCellCountX(int x)
-    {
-        this.cellCountX = x;
+    private void readMisc(String levelPath) {
+        String address = levelPath + "/misc.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(address))) {
+
+            // Goes through file in order of tag appearance and writes info to class
+            if (readFileForTag(br, "#ID"))
+                writeLevelId(br);
+            if (readFileForTag(br, "#SIZE")) {
+                writeLevelSize(br);
+            }
+            if (readFileForTag(br, "#ENEMYPOS")) {
+                writeEnemyPos(br);
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Searches File for a passed in tag. Returns a boolean value depending on whether tag was found.
+     * @param br
+     * @param tag
+     * @return boolean
+     */
+    private boolean readFileForTag(BufferedReader br, String tag) throws IOException {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.contentEquals(tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * gets the leveId from the file
+     * @param br Holds position of tag above line of interest.
+     */
+    private void writeLevelId (BufferedReader br) throws IOException {
+        String ID = br.readLine();
+        this.levelID = Integer.parseInt(ID);
+    }
+    /**
+     * gets the leveId from the file
+     * @param br Holds position of tag above line of interest.
+     */
+    private void writeLevelSize (BufferedReader br) throws IOException {
+
+    }
+    /**
+     * gets the leveId from the file
+     * @param br Holds position of tag above line of interest.
+     */
+    private void writeEnemyPos(BufferedReader br) throws IOException {
+
+    }
+    /**
+     * Returns an ArrayList of Pairs of EnemySpawnSquares
+     * @param levelPath
+     */
+    private void getEnemySpawn(String levelPath) {}
 
     /**
      * @param y - new count of number of cells in y axis
@@ -58,6 +124,15 @@ public class MapTemplate {
     public void setCellCountY(int y)
     {
         this.cellCountY = y;
+    }
+
+    /**
+     * @param x - new count for number of cells in x axis
+     *          Setter for count of cells in x axis
+     */
+    public void setCellCountX(int x)
+    {
+        this.cellCountX = x;
     }
 
     /**

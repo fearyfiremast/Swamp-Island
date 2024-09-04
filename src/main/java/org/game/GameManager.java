@@ -65,21 +65,23 @@ public class GameManager extends JPanel implements Runnable {
      * @param l CardLayout
      * @param c Container
      */
-    public GameManager(InputHandler ih, CardLayout l, Container c) {
-
+    public GameManager(InputHandler ih, CardLayout l, Container c, String levelPath) {
+        // Consistent steps
         layout = l;
         cards = c;
-
         elapsedTime = 0;
+
         highScore = getHighScore();
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
 
+
         // Beginning to set up Game
+        // TODO: Add parameter to constructor that stores level information.    Map Template class responsible for parsing files
         int x = 50;
         int y = 50;
         System.out.println("GameManager constructed");
-        MapTemplate template = new MapTemplate(x, y);
+        MapTemplate template = new MapTemplate(levelPath);
         this.collisionHandler = new CollisionHandler(this);
         this.mapManager = new MapManager(template, this);
 
@@ -91,7 +93,6 @@ public class GameManager extends JPanel implements Runnable {
         for (Pair<Integer, Integer> i : template.enemyPosArray) {
             enemyList.add(new Enemy(this, i, mc));
         }
-        //bgMusic = new Audio("SwampIslandRefactor/Swamp Island/src/main/Images/music/what-makes-you-beautiful.wav");
     }
 
     /**
@@ -101,6 +102,13 @@ public class GameManager extends JPanel implements Runnable {
         mc.initializeValues(mapManager.getStartCellPos());
         this.thread = new Thread(this);
         thread.start();
+    }
+
+    /**
+     * temporary function that contains old map template code
+     */
+    public void generate(){
+
     }
 
     /**

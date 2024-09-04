@@ -15,7 +15,9 @@ public class Main {
         InputHandler inputHandler = new InputHandler();
         CardLayout layout = new CardLayout();
         Container cards = new Container();
-        GameManager gameManager = new GameManager(inputHandler, layout, cards);
+
+        //TODO Make dynamic levelId
+        GameManager gameManager = new GameManager(inputHandler, layout, cards, "Level");
 
         // Sets up visual components
         MainMenu menu = new MainMenu();
