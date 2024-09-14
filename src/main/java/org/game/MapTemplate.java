@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public class MapTemplate {
     private final static String fromContentRoot = "src/main/textFiles";
     private Integer levelID;
+    // X: Columns, Y: Rows
+    private Pair<Integer, Integer> lvlDim;
     int cellCountX; // number of columns, we can read this as input too
     int cellCountY; // number of rows, we can read this as input too
     Pair[][] enumArray;
@@ -30,10 +32,14 @@ public class MapTemplate {
     {
         String address = fromContentRoot + "/" + levelPath;
         readMisc(address);
+
+        //TODO temp fix remove vars
+        cellCountX = lvlDim.getKey();
+        cellCountY = lvlDim.getValue();
+
         enemyPosArray = new ArrayList<>();
-        setCellCountX(50);
-        setCellCountY(50);
-        enumArray = new Pair[cellCountX][cellCountY];
+
+        enumArray = new Pair[lvlDim.getKey()][lvlDim.getValue()];
         generateBasicMap();
 
         int[] cellType_array = readMapArray("src/main/textFiles/Level/CellType.txt");
@@ -43,6 +49,14 @@ public class MapTemplate {
         init_Map(cellType_array, groundType_array);
         initEnemyPos();
 
+    }
+
+    /**
+     * Returns the X size of map template object
+     * @return Integer
+     */
+    public Integer getXSize() {
+        return this.lvlDim.getKey();
     }
 
     /**
@@ -102,7 +116,15 @@ public class MapTemplate {
      * @param br Holds position of tag above line of interest.
      */
     private void writeLevelSize (BufferedReader br) throws IOException {
-
+       // reads line from br then trims off all whitespaces and splits from ","
+        String[] filteredLine = (br.readLine()).trim().split(",");
+        Integer[] intLine = new Integer[2] ;
+        // Loop through
+        for(int i = 0; i < filteredLine.length; i++) {
+            intLine[i] = Integer.parseInt(filteredLine[i]);
+        }
+        this.lvlDim = new Pair<>(intLine[0],intLine[1]);
+        System.out.println(intLine[0]);
     }
     /**
      * gets the leveId from the file
@@ -117,23 +139,6 @@ public class MapTemplate {
      */
     private void getEnemySpawn(String levelPath) {}
 
-    /**
-     * @param y - new count of number of cells in y axis
-     *          Setter for count of cells in y axis
-     */
-    public void setCellCountY(int y)
-    {
-        this.cellCountY = y;
-    }
-
-    /**
-     * @param x - new count for number of cells in x axis
-     *          Setter for count of cells in x axis
-     */
-    public void setCellCountX(int x)
-    {
-        this.cellCountX = x;
-    }
 
     /**
      * @param x - x axis index for cell(must be in range)
@@ -144,7 +149,7 @@ public class MapTemplate {
      */
     public Pair<CellType, GroundType> getCell(int x, int y)
     {
-        if((x >= 0 && x < this.cellCountX) && ((y >= 0 && y < this.cellCountY)))
+        if((x >= 0 && x < this.lvlDim.getKey()) && ((y >= 0 && y < this.lvlDim.getValue())))
             return this.enumArray[x][y];
         else
             return this.enumArray[0][0];
@@ -158,21 +163,21 @@ public class MapTemplate {
      */
     void generateBasicMap()
     {
-        for (int i = 0; i < this.cellCountX; ++i)
+        for (int i = 0; i < this.lvlDim.getKey(); ++i)
         {
             //ArrayList<Pair<CellType, GroundType>> newRow_of_cells = new ArrayList<>();
             //Pair<CellType, GroundType>[] newRow_of_cells;
-            for (int j = 0; j < this.cellCountY; ++j)   // we ignore
+            for (int j = 0; j < this.lvlDim.getValue(); ++j)   // we ignore
             {// Originally setting everything to be a path as setting them up as empty cells, and we can change things
                 Pair<CellType, GroundType> new_pair;
-                if( ((i == 0) && (j == this.cellCountY - 1)) ) {
+                if( ((i == 0) && (j == this.lvlDim.getValue() - 1)) ) {
                     new_pair = new Pair<>(CellType.StartCell, GroundType.path);
                 }
-                else if ( ((i == this.cellCountX - 1) && (j == 0)) )  // idea being we leave the start and the end cell alone.
+                else if ( ((i == this.lvlDim.getKey() - 1) && (j == 0)) )  // idea being we leave the start and the end cell alone.
                 {
                     new_pair = new Pair<>(CellType.ExitCell, GroundType.water);
                 }
-                else if( (i == 0) || (i == cellCountX - 1) || (j == 0) || (j == cellCountY - 1) ) {
+                else if( (i == 0) || (i == lvlDim.getKey() - 1) || (j == 0) || (j == lvlDim.getValue() - 1) ) {
                     new_pair = new Pair<>(CellType.WallCell, GroundType.water);
                 }
                 else {
@@ -469,9 +474,9 @@ public class MapTemplate {
          */
 
         int i = 0;
-        for(int j = 1; j < this.cellCountX - 1; ++j)
+        for(int j = 1; j < this.lvlDim.getKey() - 1; ++j)
         {
-            for(int k = 1; k < this.cellCountY - 1; ++k)
+            for(int k = 1; k < this.lvlDim.getValue() - 1; ++k)
             {
 
 
@@ -502,8 +507,8 @@ public class MapTemplate {
             }
         }
         Pair<CellType, GroundType> temp = new Pair<>(CellType.EmptyCell, GroundType.bridge);
-        enumArray[this.cellCountX - 1][1] = temp;
-        enumArray[0][this.cellCountY-2] = temp;
+        enumArray[this.lvlDim.getKey() - 1][1] = temp;
+        enumArray[0][this.lvlDim.getValue()-2] = temp;
     }
 
     /**
